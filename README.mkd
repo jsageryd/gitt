@@ -5,7 +5,7 @@ Through reading about their day to day lives, the reader will learn not only how
 
 # Book Contents
 
-The summary below shows a list of already complete chapters and items which are pending
+The summary below shows a list of already complete chapters and items which are pending.  GITT now covers all 21 of the most commonly used Git commands.
 
 1. Analysing VCS requirements
 2. Initialising a repo, adding files, removing files, committing, resetting
@@ -30,11 +30,12 @@ After Hours
 # Building the Book
 
 GITT is written using the LaTeX language to be able to generate the PDFs easily and without artifacts.
-If you wish to read GITT whilst it is in development phase, you have 2 options.
+If you wish to read GITT whilst it is in development phase, you have 3 options.
 
 1. Read the LaTeX source, which really isn't as bad as it sounds
 2. Use `make pdf` to use latex to build the pdf, you will need to have `pdflatex` installed for this
       * For ubuntu users, run `sudo apt-get install texlive-latex-base texlive-latex-extra` to get `pdflatex` and the other files required to build
+3. An older PDF version of the book can be found <a href="https://github.com/downloads/cbx33/gitt/gitt.pdf">here</a>
 
 # Publishing
 
