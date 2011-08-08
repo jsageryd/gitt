@@ -30,7 +30,7 @@ remote: Total 53 (delta 10), reused 0 (delta 0)
 john@akira:~$
 \end{code}
 
-Now we have done exactly as before and cloned our repository to a local folder called \texttt{coderepo-ne} from the remote URL \texttt{ssh://john@satsuki/home/john/coderepo}.
+Now we have done exactly as before and cloned our repository to a local folder called \texttt{coderepo-ne} from the remote URL \newline\texttt{ssh://john@satsuki/home/john/coderepo}.
 Notice the use of \texttt{ssh://} to denote the specification of the SSH protocol.
 We have also put the users name in the URL of the remote path.
 If the SSH server was running on a different port to usual, that is, on a port other than 22, we could have also added a port number preceded by a colon after the hostname.
@@ -215,7 +215,7 @@ The best way to get round this is to use the rebase tool.
 
 \index{replaying commits}As mentioned, the rebase tool can find a common ancestor between two branches, pick up the new commits on your new branch, update the branch underneath and the replay your commits on top.
 Figure 2, shows a fairly standard commit tree.
-We have made commits \textbf{A} and \textbf{B}, and then we branch off and create \textbf{C} and textbf{D}.
+We have made commits \textbf{A} and \textbf{B}, and then we branch off and create \textbf{C} and \textbf{D}.
 It could well be that the \textbf{master} branch containing \textbf{A} and \textbf{B} actually came from an external source, and we are looking to do some development in our own branch locally.
 
 \begin{figure}[hbt]
@@ -231,7 +231,7 @@ Let us see how we can handle this.
 
 \begin{figure}[hbt]
 \centering
-\includegraphics[width=9cm]{images/f-w7-d3.pdf}
+\includegraphics[width=11cm]{images/f-w7-d3.pdf}
 \caption{Continued development}
 \end{figure}
 
@@ -240,7 +240,7 @@ A better way to handle this sometimes, is by using the rebase tool which will ac
 
 \begin{figure}[hbt]
 \centering
-\includegraphics[width=9cm]{images/f-w7-d4.pdf}
+\includegraphics[width=11cm]{images/f-w7-d4.pdf}
 \caption{A rebase in action}
 \end{figure}
 
@@ -354,7 +354,7 @@ Martha giggled.
 \end{trenches}
 
 \index{rebasing!interactive}Looking at our example commits, it would appear that we have made the same mistake as Simon.
-Our commits, \textbf{c0e2f5b} and textbf{8c6a66b} have got the same commit message.
+Our commits, \textbf{c0e2f5b} and \textbf{8c6a66b} have got the same commit message.
 Not very helpful at all.
 Let us see how \texttt{git rebase} can help us out here.
 
@@ -438,8 +438,7 @@ john@satsuki:~/coderepo$
 So Git has completed the operation, and by running an abbreviated \texttt{git log} command, we can see that the fruits of our labour have resulted in the second commit having its working changed.
 
 \begin{code}
-john@satsuki:~/coderepo$ git log --graph --pretty=oneline --all
- --abbrev-commit --decorate -n 4
+john@satsuki:~/coderepo$ git log --graph --pretty=oneline --all --abbrev-commit --decorate -n 4
 * aeb5679 (HEAD, wonderful) Updated another file again
 * 7c35dde Updated another file 2nd time
 * c0e2f5b Updated another file
@@ -504,8 +503,7 @@ john@satsuki:~/coderepo$
 By using the \texttt{git log} message, we can see that the two commits have indeed been replaced by one.
 
 \begin{code}
-john@satsuki:~/coderepo$ git log --graph --pretty=oneline --all
- --abbrev-commit --decorate -n 4
+john@satsuki:~/coderepo$ git log --graph --pretty=oneline --all --abbrev-commit --decorate -n 4
 * 4d91aab (HEAD, wonderful) Updated another file again
 * 1ffe37f Updated another file with 2 edits
 * 1c3206a (master) Added a new file
@@ -575,8 +573,7 @@ If you don't already have one, use the editor to add \texttt{[alias]} at the end
 
 \begin{code}
 [alias]
-        logg = log --graph --pretty=oneline --all
- \carriagereturn \dlsh --abbrev-commit --decorate
+        logg = log --graph --pretty=oneline --all --abbrev-commit --decorate
 \end{code}
 
 Once saved, we can use \texttt{git logg} just like any other Git command.
@@ -647,7 +644,7 @@ Notice that the two commits that \emph{were} forming the \textbf{wonderful} bran
 
 \begin{figure}[hbt]
 \centering
-\includegraphics[width=9cm]{images/f-w7-d6.pdf}
+\includegraphics[width=11cm]{images/f-w7-d6.pdf}
 \caption{Our repository after the rebase}
 \end{figure}
 
@@ -737,7 +734,7 @@ john@satsuki:~/coderepo$
 
 \begin{figure}[hbt]
 \centering
-\includegraphics[width=9cm]{images/f-w7-d7.pdf}
+\includegraphics[width=11cm]{images/f-w7-d7.pdf}
 \caption{Our repository after the recovery}
 \end{figure}
 

@@ -12,11 +12,15 @@
 \ProcessOptions*\relax
 
 
-\LoadClass[a5paper,openright,12pt]{memoir}
+\LoadClass[openright,12pt]{memoir}
 
 % set paper size
-\setlrmarginsandblock{2.16cm}{1.91cm}{*}
-\setulmarginsandblock{1.91cm}{1.91cm}{*}
+\setstocksize{24.59cm}{18.90cm}
+%\settrims{1.91cm}{0cm}
+\settrimmedsize{\stockheight}{\stockwidth}{*}
+\setlrmarginsandblock{2.79cm}{2.29cm}{*}
+\setulmarginsandblock{2.91cm}{2.91cm}{*}
+%\setmarginnotes{0.5cm}{2cm}{0.2cm}
 \checkandfixthelayout
 
 % Reset the figure numbering at the beginning of each chapter and print only
@@ -24,6 +28,7 @@
 \renewcommand{\thefigure}{\arabic{figure}}
 
 % Import packages
+\RequirePackage{pdfpages}
 \RequirePackage{graphicx}
 \RequirePackage{color,fancyvrb,relsize}
 \RequirePackage[final]{microtype}
@@ -151,6 +156,9 @@
     tabsize=2,
     showstringspaces=false,
     aboveskip=14pt,
-    belowskip=14pt
+    belowskip=14pt,
+    morecomment=[l][\tiny\bfseries\ttfamily]{john@satsuki:},
+    morecomment=[l][\tiny\bfseries\ttfamily]{rob@mimi:}
+    %moredelim=[is][\tiny\bfseries\ttfamily]{|||}{|||}
   }
 }{}

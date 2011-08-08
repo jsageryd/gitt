@@ -137,10 +137,8 @@ It would be nice if we could find out a little more about this object, and confi
 to start with, let us run the Linux \texttt{file} command on it, to see what it makes of it.
 
 \begin{code}
-john@satsuki:~/coderepo/.git/objects/cf$ file
- e23cbe0150fda69a004e301828097935ec4397
-e23cbe0150fda69a004e301828097935ec4397: VAX COFF executable -
- version 5185
+john@satsuki:~/coderepo/.git/objects/cf$ file e23cbe0150fda69a004e301828097935ec4397
+e23cbe0150fda69a004e301828097935ec4397: VAX COFF executable - version 5185
 john@satsuki:~/coderepo/.git/objects/cf$
 \end{code}
 
@@ -179,8 +177,7 @@ john@satsuki:~/coderepo$ git cat-file -s cfe23c
 john@satsuki:~/coderepo$ git cat-file -p cfe23c
 tree 34a5dff148e70c12310cda0800d6bcaf82530bdc
 author John Haskins <john.haskins@tamagoyakiinc.koala> 1301599664 +0100
-committer John Haskins <john.haskins@tamagoyakiinc.koala> 1301599664
- +0100
+committer John Haskins <john.haskins@tamagoyakiinc.koala> 1301599664 +0100
 
 My First Ever Commit
 john@satsuki:~/coderepo$
@@ -205,6 +202,12 @@ Notice our commit object sat in the middle.
 Now things start to get interesting.
 Did you also notice the tree SHA-1 hash mentioned when we ran \texttt{git cat-file -p}? This is the tree object that stores the file structure.
 Why don't we run the command against that file too?
+
+\begin{callout}{Note}{Packing for a holiday?}
+\index{packing}It is worth noting that the objects noted above are not the only objects that you will find in the \texttt{objects} folder.
+Git will sometimes clean itself up and perform packing operations.
+This is out of scope for this chapter though.
+\end{callout}
 
 \begin{code}
 john@satsuki:~/coderepo$ git cat-file -p 34a5dff
@@ -240,8 +243,7 @@ john@satsuki:~/coderepo$ git cat-file -p 163f061
 tree 3ffa7ab6dafef2bc38a70a39c53604c333ed4d7a
 parent cfe23cbe0150fda69a004e301828097935ec4397
 author John Haskins <john.haskins@tamagoyakiinc.koala> 1301599979 +0100
-committer John Haskins <john.haskins@tamagoyakiinc.koala> 1301599979
- +0100
+committer John Haskins <john.haskins@tamagoyakiinc.koala> 1301599979 +0100
 
 Made a few changes to first and second files
 john@satsuki:~/coderepo$
@@ -267,9 +269,3 @@ This diagram describes the repository layout completely and if you correlate, we
 Now we know how to traverse a repository.
 In \emph{Week 3} we find the Git commands to let us do that without having to break out the wrenches and resort to plumbing.
 After all, why use a wrench to turn on a tap?
-
-\begin{callout}{Note}{Packing for a holiday?}
-\index{packing}It is worth noting that the objects noted above are not the only objects that you will find in the \texttt{objects} folder.
-Git will sometimes clean itself up and perform packing operations.
-This is out of scope for this chapter though.
-\end{callout}
