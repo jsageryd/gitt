@@ -46,7 +46,7 @@ There were other moans and grunts.
 
 ``Well,'' said John,
 ``as far as I understand it, it doesn't. I mean Klaus and I will have local copies of the repository too. We will work on those and then sync our changes back to the server. It's a sync, moreover a copy. I think it's actually called a clone.''
-He nodded to himself, ``And, since Klaus and I will hardly ever overlap on code, we shouldn't ever need to merge or deal with an conflicts.''
+He nodded to himself, ``And, since Klaus and I will hardly ever overlap on code, we shouldn't ever need to merge or deal with an\footnote{marked out another tpyo for you} conflicts.''
 
 ``But what about us monkeys?'' asked Martha,
 ``Where do we get our clones from?''
@@ -65,16 +65,16 @@ Simon spoke out, ``Well, I was reading over the weekend about this thing called 
 ``What's rebase and how is it different to merging?'' asked Mike.
 
 ``Well, rebasing is pretty darn clever. Think of it this way. You have an upstream branch, in this case, our blessed repository. You are happily making changes. When the upstream changes, you could merge the changes in from blessed. If you do this, you create a single commit which merges the changes in. It works, but\ldots'' he trailed off a little,
-``it can cause problems in certain instances. A better way to handle it is with rebasing. Rebasing can take all the changes you have made, squirrel them away, pull down all the changes to bring it up to date, and then whack your changes on top.''
+``it can cause problems in certain instances. A better way to handle it is with rebasing. Rebasing can take all the changes you have made, squirrel them away, pull down all the changes to bring it up to date, and then whack your changes on top.''\footnote{rebasing has its drawbacks too (effectively being an implicit merge at every commit); perhaps rephrase slightly to indicate that sometimes a merge is the better choice}
 
 John breathed out, ``It sounds pretty cool Simon, but one thing is abundantly clear, we need to learn more about the Git basics before we start delving into this merging and rebasing. Let's spend the rest of the day playing with some test repositories and reconvene tomorrow.''
 \end{trenches}
 
 If you've never played with a version control system before it is a good idea to take some time to just play.
-Pretty soon you'll have learnt the basics and will be in a position where you will want to put your newly honed skills into practise.
+Pretty soon you'll have learnt the basics and will be in a position where you will want to put your newly honed skills into practise\footnote{practice}.
 Though playing on test repositories is good, it is quite usual that you need to actually use the system in a real environment before real problems arise.
 The rest of this chapter is a very quick introduction to Git.
-It is presented as an introduction, because it is hoped and expected that the you will take some time out to get to know the system and how it works.
+It is presented as an introduction, because it is hoped and expected that the you will take some time out to get to know the system and how it works.\footnote{perhaps point out that dedicating some time at the beginning to really learn how things work (git object model for instance), will likely save a lot of time (and frustration) later}
 
 \subsection{Initialising A Repository}
 The first thing we need to do is to understand two very important things:
@@ -93,6 +93,7 @@ john@satsuki:~/coderepo$ git init
 Initialized empty Git repository in /home/john/coderepo/.git/
 john@satsuki:~/coderepo$
 \end{code}
+\footnote{people who have never used a *nix system before may be confused by that `\texttt{user@host:$\sim$\$}' (oh and $\sim$ looks nicer than \textasciitilde{} perhaps), maybe a note to the Windows-users would be handy}
 
 What we've done here is create a new directory called coderepo, moved into it, and then run the \indexgit{init} command.
 The result of this command is a new directory in the coderepo directory called \texttt{.git}.
@@ -100,20 +101,20 @@ This directory will hold a local copy of our entire repository.
 This will allow us to create branches, merge changes, rebase things and ultimately push our changes to somewhere else.
 
 Something that is crucial to the running of a repository, whether you are an administrator of Git, or a developer who is using it, is an understanding of how Git works.
-It is fine to jump in and play with the repository and test the water, but before committing to using Git in a production environment, you should understand what Git actually does in the background in some detail.
+It is fine to jump in and play with the repository and test the water, but before committing to using Git in a production environment, you should understand what Git actually does in the background in some detail.\footnote{right, this is what I was referring to earlier; convince the reader that it will save time}
 
-During the writing of this book several people have told me that Git is one of the only version control systems where a good understanding of how the underlying system works is not just highly recommended, but bordering on essential.
+During the writing of this book several people have told me that Git is one of the only version control systems where a good understanding of how the underlying system works is not just highly recommended, but bordering on essential.\footnote{couldn't agree more}
 
 Let us take a few minutes to talk about how Git works internally and how the data is actually stored.
-Git doesn't store changes to files, but actual snapshots of files at specific points in time.
-It refers to these by running an \index{SHA-1}SHA-1 hash against the file.
-By doing this, it is easy to Git to detect if a file has changed.
+Git doesn't store changes to files, but actual snapshots of files\footnote{snapshots of the state of the entire project, in fact; an important distinction to make, even though I see that you are describing blobs at the moment} at specific points in time.
+It refers to these by running an \index{SHA-1}SHA-1 hash against the file.\footnote{`run a hash against the file' -- is this proper wording? (I don't know)}
+By doing this, it is easy to\footnote{for?} Git to detect if a file has changed.
 If the SHA-1 hash of a file changes, then the file must have been modified.
 
 When a commit is made to the repository, Git stores a few things.
 A \index{commit}commit object is created.
-This contains information about who made the commit, the parent of the commit and points to a tree object.
-The tree object describes what the repository looked like at the time of the commit.
+This contains information about\footnote{, among other things (metadata),} who made the commit, the parent of the commit and points\footnote{how many?} to a tree object.
+The tree object describes what the repository\footnote{not repository, maybe `state of the project' or `state of the files' or similar formulation} looked like at the time of the commit.
 In other words the tree object, tells Git what files were in there.
 Lastly, Git stores the files that were in the repository under their SHA-1 names in the objects directory.
 Of course Git is super clever here because if you have exactly the same file in multiple commits, the SHA-1 hash of that file doesn't change and therefore Git only stores one copy of the file to save space.
@@ -122,12 +123,13 @@ The commit object is also referred to by an SHA-1 hash.
 This is different to many other version control systems which use either a number that refers to the repository or a per file version number.
 Getting used to seeing 40 character SHA-1 hashes can take a little time.
 Saying "I need the commit referred to as bf81617d6417d9380e06785f8ed23b247bea8f6d," is certainly not as easy as saying you need revision 6.
-However, Git handles these hashes well, and you can reference a commit using a few of the characters from the beginning, as long as those characters uniquely refer to that commit, i.e.,\ as long as your choice isn't in any way ambiguous.
+However, Git handles these hashes well, and you can reference a commit using a few of the characters from the beginning, as long as those characters uniquely refer to that commit, i.e.,\ as long as your choice isn't in any way ambiguous.\footnote{this explanation of commit, tree, and blob objects, is clear to me, but to a newcomer I think it might be very confusing; perhaps you should leave some of the details out and return to it in after hours where you have that handy graph? Either that, or consider revising this for more clarity, perhaps explaining more clearly that a blob contains the file content and a tree maps to a single directory, and the commit to... well I don't know. The box you put the tree in, with a nice label saying something about it?}
 
 \section{Day 2 - ``Making commitments''}
 \subsection{Let's Make a Repository}
+\footnote{but we already made a repository yesterday, using `\texttt{git init}', remember}
 
-The most simple way of committing a file into the repository is to create it, or bring it into your working copy and use the commands below.
+The most simple way of committing a file into the repository is to create it, or bring it into your working copy\footnote{newbie confusion alert: what do you mean, `working copy'?} and use the commands below.
 
 \begin{code}
 john@satsuki:~/coderepo$ touch my_first_committed_file
@@ -138,9 +140,10 @@ john@satsuki:~/coderepo$ git commit -m 'My First Ever Commit'
  create mode 100644 my_first_committed_file
 john@satsuki:~/coderepo$
 \end{code}
+\footnote{all this *nix magic, making Windows-users dizzy; but this is not a bash guide so perhaps it would be annoying with explanations; and rather silly too}
 
 What we have done here, is to create a new blank file and add it into the repository using the \indexgit{add} command.
-Then we have committed it into the repository using the \indexgit{commit} command.
+Then we have committed it into the repository using the \indexgit{commit} command.\footnote{newbie confusion alert: wait, we added it to the repository, then we add it again to the repository but with a different command ..or? I'm used to just `checking in' when I finished working, this is a hassle}
 Let's make a few changes to our working copy and see what the result is.
 First we are going to add another two new files, then we are going to make changes to our original file and finally we are going to run git status to see what Git has to say about our changes.
 
@@ -191,7 +194,7 @@ john@satsuki:~/coderepo$
 \end{code}
 
 Now we can see that one of the sections has changed to "Changes to be committed".
-So this means that Git has recognised and remembered that we are expecting these files to be committed when we next run a \texttt{git commit}.
+So this means that Git has recognised and remembered that we are expecting these files to be committed when we next run a \texttt{git commit}.\footnote{today's special: brain of noob (fried) -- perhaps make this section a little less compact?}
 
 \subsection{Committing the Uncommitted}
 
@@ -212,7 +215,7 @@ John pointed at the screen.
 \end{trenches}
 
 To understand what Klaus was getting in a spin about, let's make a change to my\_second\_committed\_file now and see how this affects things.
-Remember we have already added the file, but we haven't yet made a commit.
+Remember we have already added the file, but we haven't yet made a commit.\footnote{newbie confusion alert: this is so complicated, tracked, untracked, staged, not staged, clean, ..? Give me a nice illustration and explain to me about this `staging area' and I might have a chance to grasp this}
 
 \begin{code}
 john@satsuki:~/coderepo$ echo "Change2" >>
@@ -257,12 +260,12 @@ john@satsuki:~/coderepo$
 
 In our examples, we have used the syntax \texttt{git commit -m 'Message'}.
 This is a slightly special way of committing, it allows us to specify our commit log message on the command line.
-If we wanted to, we could run the command git commit and this would open a text editor that we could use to input our commands.
+If we wanted to, we could run the command git commit\footnote{wrong font here? Perhaps define \LaTeX{} shorthands (commands) for the git commands?} and this would open a text editor that we could use to input our commands\footnote{is that supposed to say `commit message'?}.
 
 Let us finish off our round of committing by using the \texttt{git commit -a} option.
 This commits all of the changes to files which are already tracked.
 Consequently we do not have to specify the files with \texttt{git add}, like we have had to previously.
-Any file which has been modified and has previously been added to the repository, will have it's changes committed upon running that command.
+Any file which has been modified\footnote{perhaps note that this includes deleted files} and has previously been added to the repository, will have it's changes committed upon running that command.\footnote{Introducing \texttt{git commit -a} before \texttt{git add -u} might make people think the index is a hassle before even learning how to use it?}
 
 \begin{code}
 john@satsuki:~/coderepo$ git status
@@ -302,6 +305,7 @@ john@satsuki:~/coderepo$
 \end{code}
 
 \section{Day 4 - ``Let's do this right, not fast''}
+\footnote{Day 4\ldots what happened to day 3? You can number these with auto-incrementing counters in \LaTeX, it's pretty handy; there are even pre-defined ones, but you killed the section numbering in your class for some reason. Here's a custom counter: \newcounter{day}[chapter]\arabic{day}, \addtocounter{day}{1}\arabic{day}, \addtocounter{day}{1}\arabic{day}; the section counter is nice though, you might want to consider using it}
 
 \subsection{Uh-Oh I Think I Made A Mistake}
 
@@ -368,15 +372,15 @@ nothing added to commit but untracked files present (use "git add" to track)
 john@satsuki:~/coderepo$
 \end{code}
 
-We have discarded the file which was residing in the index.
+We have discarded\footnote{`unstaged'?} the file which was residing in the index.
 This is very important to note.
-We are not moving the file from the index back into our working directory, we are literally just deleting the file from the index.
+We are not moving the file from the index back into our working directory, we are literally just deleting\footnote{not deleting, but grabbing it from HEAD -- important to note the difference} the file from the index.
 Our working copy remains unaffected.
-We could run the \indexgit{reset} command without appending a file.
-If we did this, all the files in the index would have been discarded.
+We could run the \indexgit{reset} command without appending a file\footnote{`without supplying a path (filename)'?}.
+If we did this, all the files in the index would have been discarded\footnote{(files are reset to their state in HEAD, changes are effectively discarded)}.
 
 \begin{trenches}
-``So, I think we are all agreed, I'll keep a version of the repository under Git version control.
+``So, I think we are all agreed, I'll keep a version of the repository\footnote{using the word `repository' to refer to both the code base and the git repo is confusing} under Git version control.
 Until everyone else feels comfortable with some of the more advanced features.'' John looked around the room for any disagreements but there were none.
 
 ``Agreed John,'' said Markus, ``I'm pleased with how you guys are progressing, very pleased, but like John said, it's far better for us to take our time and to implement this correctly, than to rush it and to end up with something that we can't administrate and that we don't know how it works.''
@@ -393,7 +397,7 @@ Git can use any text editor you require, even a graphical one, though the need r
 As mentioned earlier, Git has a preference lever when talking about configuration.
 First and foremost it will look in the repositories own 'config' file in the .git folder.
 Then, it will look in the users \texttt{\textasciitilde/.gitconfig} file.
-Finally, Git will look in your distributions own global folder.
+Finally, Git will look in your distributions\footnote{``distribution's'' -- this is also a word that some readers may be unfamiliar with} own global folder.
 
 If we wanted to change the editor that Git would use to modify commit messages, we can either modify the files directly, or run a command similar to the following;
 
@@ -416,7 +420,7 @@ The question is, what do we do if we need to remove a file, or even rename it.
 Well, git has some commands to help with that.
 \indexgit{rm} and \indexgit{mv} delete and move files respectively.
 Usually when you want to remove files from the repository, or move them, this is how you will handle it, but what if you have already deleted a tracked file manually? Well, you have two options.
-You could run \texttt{git commit -a}, but remember this will commit all changes to tracked files.
+You could run \texttt{git commit -a}\footnote{perhaps say \texttt{git~add~-u} instead to keep things straight, and mention somewhere that \texttt{git~commit~-a} does that + commits}, but remember this will commit all changes to tracked files.
 You could also run a \texttt{git rm <filename>} with the name of the file you have just deleted.
 Git will then push that change into the staging area ready for commit.
 The same applies to moving a file
@@ -443,15 +447,15 @@ It is process that is key to the order.
 \section{Summary - John's Notes}
 \subsection{Commands}
 \begin{itemize}
-\item\texttt{git add} - Add files into the index or staging area
+\item\texttt{git add} -\footnote{use double dashes\ldots} Add files into the index or staging area
 
 \item\texttt{git commit } - Commit files into the repository, using text editor for commit message
 
-\item\texttt{git commit -m '<Message>'} - Commit files into the repository, using the command line to supply commit message
+\item\texttt{git commit -m '<Message>'\footnote{I wonder if there is a way to straighten these quote marks}} - Commit files into the repository, using the command line to supply commit message
 
 \item\texttt{git commit -a} - Commit all tracked files into the repository that have changed, using text editor for commit message
 
-\item\texttt{git reset <path>} - Remove file from index or staging area
+\item\texttt{git reset <path>} - Remove\footnote{noted earlier, not `remove', but reset to HEAD} file from index or staging area
 
 \item\texttt{git status} - Show the status of tracked, changed, untracked files
 \end{itemize}

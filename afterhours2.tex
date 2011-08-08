@@ -37,14 +37,14 @@ john@satsuki:~/coderepo/.git$
 \index{COMMIT\_EDITMSG}\textbf{COMMIT\_EDITMSG} - This file holds the last commit message that was displayed in the editor.
 
 \textbf{config} - This is the main configuration file for Git.
-It is the first place git looks for upon invocation.
-If this file is not present, Git will inspect \texttt{\textasciitilde/.gitconfig}.
+It is the first place\footnote{note that things defined in this config overrides any other config} git looks for upon invocation.
+If this file is not present, Git will inspect \texttt{\textasciitilde\footnote{tilde character could look better}/.gitconfig}.
 After this, Git will go to \texttt{/etc/gitconfig}.
 The file holds information about the remotes, tracking branches, push configurations and many more items.
 
 \textbf{description} - This is a simple text file which gives a description to a repository when being view via gitweb or similar.
 
-\index{HEAD}\textbf{HEAD} - This file is a pointer to the parent commit of your current branch.
+\index{HEAD}\textbf{HEAD} - This file is a\footnote{contains a} pointer to the parent\footnote{parent commit of my current branch\ldots, so e.g. \texttt{master\textasciicircum}? write that it points to the branch itself, or a commit object if HEAD is detached} commit of your current branch.
 
 \textbf{hooks} - Scripts can be placed in here to perform operations at certain points during the commit process.
 
@@ -55,7 +55,7 @@ The file holds information about the remotes, tracking branches, push configurat
 \textbf{objects} - The is the directory that holds all of the actual files that are stored in the repository.
 The files are named by their SHA-1 values.
 Inside the folder are a number of directories which make up the first 2 characters of the SHA-1 value.
-The remaining portion of the SHA-1 hash is used to name the file.
+The remaining portion of the SHA-1 hash\footnote{sometimes you say SHA-1 value, sometimes SHA-1 hash; you should be consistent here} is used to name the file.\footnote{unless it's a pack\ldots}
 
 \index{ORIG\_HEAD}\textbf{ORIG\_HEAD} - Hold the previous SHA-1 hash that HEAD pointed to.
 This allows certain operations to go back, in the case of failure.
@@ -69,21 +69,21 @@ The most interesting of the folders here is the \texttt{objects} folder.
 This folder as previously described holds all of the objects that are stored in the repository.
 Now, what do we actually mean by objects.
 As yet, we have not really defined what an object is.
-We are going to look now at three types of object that Git places in this directory.
+We are going to look now at three\footnote{perhaps note that there are four types in total but that the tag object will be explained later} types of object that Git places in this directory.
 These are the commit, tree and blob objects.
 We need a little more information as the names themselves do not fully describe what the item is.
 
 \begin{itemize}
 \index{commit!internals}\item\textbf{commit} - A commit object is an object that describes a specific point in time.
 Whenever you perform a \texttt{git commit} from the command line, what you are actually doing is creating one of these objects in the repository.
-This object stores information about the committer, the date, a link to the previous commit object and most importantly a link to the tree object of the current commit.
+This object stores\footnote{either list all of the things it stores, or say `among other things' or so; also, there are two dates so there is no `the date'} information about the committer, the date, a link to the previous commit object and most importantly a link to the tree object of the current commit.
 \index{tree!internals}\item\textbf{tree} - A tree object defines which files were physically included in the commit when it was added to the database.
 The tree contains the name of the files that were present in the tree by recording their blob SHA-1 id and their filename.
 Sub-folders of a directory will be referenced by another tree object.
 In this way, a tree object will contain references to both tree objects and blob objects
-\index{blob!internals}\item\textbf{blob} - A blob object actually contains the data that resides inside the file.
+\index{blob!internals}\item\textbf{blob} - A blob object actually contains the data\footnote{`contains the actual data'?} that resides inside the file.
 There is one object generated per revision of a file.
-However, if exactly the same data resides in two separate files, then there will only be one object created and that object will be referenced by two trees.
+However, if exactly the same data resides in two separate files, then there will only be one object created and that object will be referenced by two\footnote{or one\ldots} trees.
 In this way, multiple copies of the same file, or files which have not changed through multiple revisions are not stored multiple times.
 Even though Git stores a complete snapshot of the file system at every revision.
 \end{itemize}
@@ -100,7 +100,7 @@ Regardless, the structure of a basic repository may look something a little like
 \end{figure}
 
 So now we know what a basic repository should look like, let us go through each stage of our committing in \textbf{Week 2} and see how it is built up at each stage.
-Below is a consolidated list of all the objects in the repository.
+Below\footnote{below is Figure~1, but I understand} is a consolidated list of all the objects in the repository.
 
 \begin{code}
 ./09/5b9cda52807c9c11781ec0a4aee927787b61f1
@@ -124,7 +124,7 @@ Looking back in \emph{Week 2} we can see the following trimmed output.
 So we need to start with the object that begins \texttt{cfe23cb}.
 Remember in the description above about the SHA-1 hashes, the first two bytes are the directory name.
 We are looking for a file that starts with the characters \texttt{e23cb} and it will be in the directory called \texttt{cf}.
-By George! Looking at the list above, we can see that there is one file which fits the bill.
+By George!\footnote{\ldots{}George?} Looking at the list above, we can see that there is one file which fits the bill.
 In fact it would be a little ambiguous if there were two.
 It \emph{could} happen that we would have two SHA-1 hashes that started with the same seven characters, but it's not likely.
 The line we are interested in is listed below.
@@ -134,7 +134,7 @@ The line we are interested in is listed below.
 \end{code}
 
 It would be nice if we could find out a little more about this object, and confirm that it is what we expect it to be.
-to start with, let us run the Linux \texttt{file} command on it, to see what it makes of it.
+to\footnote{capitalise} start with, let us run the Linux \texttt{file}\footnote{users of msysgit do not have the \texttt{file} command} command on it, to see what it makes of it.
 
 \begin{code}
 john@satsuki:~/coderepo/.git/objects/cf$ file e23cbe0150fda69a004e301828097935ec4397
@@ -144,22 +144,22 @@ john@satsuki:~/coderepo/.git/objects/cf$
 
 The \texttt{file} command, tells us that the file is actually of \texttt{VAX COFF executable - version 5185} filetype.
 This is obviously not correct.
-Git stores its objects by Zlib compressing them, which is why it is difficult for the \texttt{file} command to make any sense out of them.
+Git stores its objects by Zlib compressing\footnote{`Zlib-compressing'? also check that Zlib is the proper capitalisation} them, which is why it is difficult for the \texttt{file} command to make any sense out of them.
 Later in the book, you will find out exactly how to generate your own repository from scratch, but for now, let us just understand that Git first creates a header for the content, then adds the content to the header, creates the SHA-1 hash of such data and finally Zlib compresses it to store to disk.
 
 \subsection{Out comes the wrench}
 Wouldn't it be nice if we could view the data that was inside the file simply, without having to write out own tools.
 If you look through the Git man page, you will find one listed under the \textbf{Interrogation} section, called \texttt{git cat-file}.
-Anyone who has spent any time with Git will know what the \texttt{cat} command does.
+Anyone who has spent any time with Git\footnote{do you mean *nix?} will know what the \texttt{cat} command does.
 \texttt{cat} is used to display the contents of files.
-In Git, this command is used to display the contents, type or size of a repository object, be it either of type commit, tree or blob.
+In Git, this command is used to display the contents, type or size of a repository object, be it either of type commit, tree or blob\footnote{or tag}.
 
-\begin{callout}{Information}{What's with all the wrenches?}
+\begin{callout}{Information}{What's with all the wrenches?}?
 You may have noticed the less than subtle references to plumbing.
 Git has two types of commands.
 Those that are readily available to the end user, and those that are not.
 
-The commands that are readily available to the end user are called Porcelain commands because they have been refined and are simple to use, think Tap and Sink.
+The commands that are readily available to the end user are called Porcelain\footnote{with a capital P?} commands because they have been refined and are simple to use, think Tap and Sink.
 
 Commands which get a little down and dirty with the details are called Plumbing commands because they are dealing with the primitive objects that make things work, think Pipes and Joints.
 \end{callout}
@@ -201,11 +201,11 @@ Notice our commit object sat in the middle.
 
 Now things start to get interesting.
 Did you also notice the tree SHA-1 hash mentioned when we ran \texttt{git cat-file -p}? This is the tree object that stores the file structure.
-Why don't we run the command against that file too?
+Why don't we run the command against that file\footnote{object} too?
 
 \begin{callout}{Note}{Packing for a holiday?}
 \index{packing}It is worth noting that the objects noted above are not the only objects that you will find in the \texttt{objects} folder.
-Git will sometimes clean itself up and perform packing operations.
+Git will sometimes clean itself\footnote{\ldots{}well the repo at least} up and perform packing operations.
 This is out of scope for this chapter though.
 \end{callout}
 
